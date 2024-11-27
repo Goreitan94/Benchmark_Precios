@@ -11,18 +11,24 @@ def login():
     st.sidebar.header("Acceso a la aplicación")
     password = st.sidebar.text_input("Introduce la contraseña:", type="password")
     if password == PASSWORD:
-        st.session_state.logged_in = True  # Cambia el estado a "conectado"
-        st.experimental_rerun()  # Recarga la app para mostrar el contenido principal
+        # Cambia el estado a "conectado"
+        st.session_state.logged_in = True
     elif password:
         st.sidebar.error("Contraseña incorrecta.")
     else:
         st.sidebar.info("Introduce la contraseña para continuar.")
 
-# Verificar si ya se inició sesión
+# Inicializa el estado de sesión si no existe
 if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False  # Inicializa el estado si no existe
+    st.session_state.logged_in = False  # Inicializa como "no conectado"
 
+# Lógica principal de la app
 if st.session_state.logged_in:
+    # Botón para cerrar sesión
+    if st.sidebar.button("Cerrar sesión"):
+        st.session_state.logged_in = False  # Cambia el estado a "no conectado"
+        st.experimental_rerun()  # Recarga la página para volver al login
+
     # Cargar los datos
     @st.cache
     def load_data():
@@ -35,11 +41,6 @@ if st.session_state.logged_in:
         return data
 
     df = load_data()
-
-    # Botón para cerrar sesión
-    if st.sidebar.button("Cerrar sesión"):
-        st.session_state.logged_in = False  # Cierra la sesión
-        st.experimental_rerun()  # Recarga la página para volver al login
 
     # Título de la app
     st.title("Benchmark de Precios por Barrio")
