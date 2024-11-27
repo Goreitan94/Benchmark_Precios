@@ -11,8 +11,8 @@ def login():
     st.sidebar.header("Acceso a la aplicación")
     password = st.sidebar.text_input("Introduce la contraseña:", type="password")
     if password == PASSWORD:
-        st.session_state.logged_in = True
-        st.sidebar.success("Acceso concedido. Recarga la página para salir.")
+        st.session_state.logged_in = True  # Cambia el estado a "conectado"
+        st.experimental_rerun()  # Recarga la app para mostrar el contenido principal
     elif password:
         st.sidebar.error("Contraseña incorrecta.")
     else:
@@ -20,7 +20,7 @@ def login():
 
 # Verificar si ya se inició sesión
 if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
+    st.session_state.logged_in = False  # Inicializa el estado si no existe
 
 if st.session_state.logged_in:
     # Cargar los datos
@@ -35,6 +35,11 @@ if st.session_state.logged_in:
         return data
 
     df = load_data()
+
+    # Botón para cerrar sesión
+    if st.sidebar.button("Cerrar sesión"):
+        st.session_state.logged_in = False  # Cierra la sesión
+        st.experimental_rerun()  # Recarga la página para volver al login
 
     # Título de la app
     st.title("Benchmark de Precios por Barrio")
@@ -75,7 +80,7 @@ if st.session_state.logged_in:
         porcentaje_compra = ((precio_por_m2 - precio_compra) / precio_compra) * 100
 
         # Mostrar porcentajes
-        #st.write(f"Porcentaje respecto al margen: {porcentaje_margen:.2f}%")
+        st.write(f"Porcentaje respecto al margen: {porcentaje_margen:.2f}%")
         st.write(f"Porcentaje respecto a la compra: {porcentaje_compra:.2f}%")
 
         # Identificar oportunidad
