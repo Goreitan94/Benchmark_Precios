@@ -10,13 +10,16 @@ def login():
     st.title("Inicio de Sesión")
     st.sidebar.header("Acceso a la aplicación")
     password = st.sidebar.text_input("Introduce la contraseña:", type="password")
-    if password == PASSWORD:
-        # Cambia el estado a "conectado"
-        st.session_state.logged_in = True
-    elif password:
-        st.sidebar.error("Contraseña incorrecta.")
-    else:
-        st.sidebar.info("Introduce la contraseña para continuar.")
+    login_button = st.sidebar.button("Iniciar sesión")  # Botón para confirmar la contraseña
+
+    if login_button:
+        if password == PASSWORD:
+            st.session_state.logged_in = True  # Cambia el estado a "conectado"
+            st.experimental_rerun()  # Recarga la app para mostrar el contenido principal
+        elif password:
+            st.sidebar.error("Contraseña incorrecta.")
+        else:
+            st.sidebar.info("Introduce la contraseña para continuar.")
 
 # Inicializa el estado de sesión si no existe
 if "logged_in" not in st.session_state:
