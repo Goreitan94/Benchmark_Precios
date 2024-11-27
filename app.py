@@ -84,7 +84,7 @@ if st.session_state.logged_in:
         porcentaje_compra = ((precio_por_m2 - precio_compra) / precio_compra) * 100
 
         # Mostrar porcentajes
-        st.write(f"Porcentaje respecto al margen: {porcentaje_margen:.2f}%")
+        #st.write(f"Porcentaje respecto al margen: {porcentaje_margen:.2f}%")
         st.write(f"Porcentaje respecto a la compra: {porcentaje_compra:.2f}%")
 
         # Identificar oportunidad
